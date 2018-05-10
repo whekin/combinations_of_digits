@@ -1,8 +1,8 @@
-// num -> digits -> mix
+// num -> digits ->shuffle
 type
-    arr = array of integer;
+    dynamic_array = array of integer;
     
-function getDigitsOfNum(num: integer): arr;
+function getDigitsOfNum(num: integer): dynamic_array;
 var digits: array of integer;
     a, n, i: integer;
 begin
@@ -26,7 +26,7 @@ begin
         factorial := num * factorial(num - 1);
 end;
 
-function arrToInt(ar: arr): integer;
+function arrToInt(ar: dynamic_array): integer;
 var
     len: integer;
     a: integer;
@@ -39,44 +39,38 @@ begin
     arrToInt := a;
 end;
 
-function mix(num: integer): arr;
-var digits: arr;
-    amount: integer;
-    len: integer;
-    shuffled: arr;
-    c: integer;
-    m: arr;
-    a,b: integer;
+function shuffle(num: integer): dynamic_array;
+var digits, shuffled, d: dynamic_array;
+    amount, c, len, a, b: integer;
     
 begin
   digits := getDigitsOfNum(num);
   len := digits.length;
   amount := factorial(len);
   setLength(shuffled, amount);
-  m := digits;
-  c := 0;
+  d := digits;
   
   for var i := 0 to amount div (len - 1) - 1 do
   begin
     for var j := 0 to len - 2 do
     begin
-        a := m[j];
-        b := m[j + 1];
-        m[j] := b;
-        m[j + 1] := a;
-        shuffled[c] := arrToInt(m);
+        a := d[j];
+        b := d[j + 1];
+        d[j] := b;
+        d[j + 1] := a;
+        shuffled[c] := arrToInt(d);
         inc(c);
     end;
   end;
-  mix := shuffled;
+ shuffle := shuffled;
 end;
 
 var 
-    ar: arr;
+    array_of_shuffled_digits: dynamic_array;
     num: integer;
 begin
     readln(num);
-    ar := mix(num);
-    for var i := 0 to ar.length - 1 do
-        write(ar[i], ' ');
+    array_of_shuffled_digits :=shuffle(num);
+    for var i := 0 to array_of_shuffled_digits.length - 1 do
+        write(array_of_shuffled_digits[i], ' ');
 end.
