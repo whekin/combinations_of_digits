@@ -1,7 +1,7 @@
 // num -> digits -> shuffle
-
+uses math; // для free pascal, если abc, то удалить
 type
-    dynamic_array = array of integer;
+    dynamic_array = array of integer; // тип для динамического массива
     
 // функция получает число и возвращает массив цифр этого числа в обратном порядке, например 123 -> [3, 2, 1]
 function getDigitsOfNum(num: integer): dynamic_array;
@@ -32,11 +32,11 @@ end;
 // функция обьединят числа массива в число и возвращает его, например - [1,2,3] -> 123
 function arrToInt(ar: dynamic_array): integer;
 var
-    len: integer;
-    a: integer;
+    len, a, i: integer;
 begin
-    len := ar.Length;
-    for var i := 0 to len - 1 do
+    len := Length(ar);
+    a := 0;
+    for i := 0 to len - 1 do
     begin
         a := a + ar[i]*round(power(10, len - i - 1));
     end;
@@ -46,19 +46,19 @@ end;
 // Функция на вход получает число и возвращает в массиве все комбинации из чисел в этом числе, например - 123 -> [231, 213, 123, 132, 312, 321]
 function shuffle(num: integer): dynamic_array;
 var digits, shuffled, d: dynamic_array;
-    amount, c, len, a, b: integer;
+    amount, c, len, a, b, i, j: integer;
     
 begin
   digits := getDigitsOfNum(num); // получаем массив чисел из числа
-  len := digits.length; // длина числа (количество цифр)
+  len := length(digits); // длина числа (количество цифр)
   amount := factorial(len); // количество возможных комбинаций из числа
   setLength(shuffled, amount); // задаем массиву с комбинациями длину равную количеству комбинаций
   d := digits; // копируем цифры
-  
+  c := 0;
   // основной алгоритм
-  for var i := 0 to amount div (len - 1) - 1 do
+  for i := 0 to amount div (len - 1) - 1 do
   begin
-    for var j := 0 to len - 2 do
+    for j := 0 to len - 2 do
     begin
         a := d[j];    // |
         b := d[j + 1];// < меняем два числа местами в массиве
@@ -74,10 +74,11 @@ end;
 
 var 
     array_of_shuffled_digits: dynamic_array;
-    num: integer;
+    num, i: integer;
 begin
-    readln(num);
+    num := 123;
+    //readln(num);
     array_of_shuffled_digits := shuffle(num);
-    for var i := 0 to array_of_shuffled_digits.length - 1 do
+    for i := 0 to length(array_of_shuffled_digits) - 1 do
         write(array_of_shuffled_digits[i], ' ');
 end.
